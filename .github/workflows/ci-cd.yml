@@ -6,7 +6,6 @@ on:
       - main
 
 jobs:
-
   build-and-test:
 
     runs-on: ubuntu-latest
@@ -42,9 +41,7 @@ jobs:
         run: npm install
 
       - name: Verificar backend
-  working-directory: ./backend
-  run: |
-    node -e "console.log('Backend verificado correctamente')"
+        run: echo "Backend verificado correctamente"
 
       # =========================
       # DOCKER

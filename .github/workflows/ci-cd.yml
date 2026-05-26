@@ -1,0 +1,56 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # =========================
+      # FRONTEND
+      # =========================
+
+      - name: Instalar dependencias frontend
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      # =========================
+      # BACKEND
+      # =========================
+
+      - name: Instalar dependencias backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Verificar backend
+        working-directory: ./backend
+        run: npm run start
+
+      # =========================
+      # DOCKER
+      # =========================
+
+      - name: Build Docker frontend
+        run: docker build -t frontend-app ./frontend
+
+      - name: Build Docker backend
+        run: docker build -t backend-app ./backend
